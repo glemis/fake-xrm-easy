@@ -97,6 +97,5 @@
     <Compile Include="$(MSBuildThisFileDirectory)XrmFakedTracingService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)XrmFakedWorkflowContext.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)XrmOrderByAttributeComparer.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)XrmRealContext.cs" />
   </ItemGroup>
 </Project>

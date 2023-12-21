@@ -1,7 +1,8 @@
-﻿using FakeItEasy;
+using FakeItEasy;
 using Microsoft.Xrm.Sdk;
 using System;
 using System.Linq;
+using Microsoft.Xrm.Sdk.PluginTelemetry;
 
 namespace FakeXrmEasy
 {
@@ -116,6 +117,26 @@ namespace FakeXrmEasy
             }
 
             return this.ExecutePluginWith(ctx, new T());
+        }
+
+        /// <summary>
+        /// Executes a plugin passing a custom context. This is useful whenever we need to mock more complex plugin contexts (ex: passing MessageName, plugin Depth, InitiatingUserId etc...)
+        /// </summary>
+        /// <param name="ctx"></param>
+        /// <param name="instance"></param>
+        /// <returns></returns>
+        public IPlugin ExecutePluginWith(XrmFakedPluginExecutionContext ctx, IPlugin instance, IServiceProvider fakedServiceProvider)
+        {
+            var fakedPlugin = A.Fake<IPlugin>();
+            A.CallTo(() => fakedPlugin.Execute(A<IServiceProvider>._))
+                .Invokes((IServiceProvider provider) =>
+                {
+                    var plugin = instance;
+                    plugin.Execute(fakedServiceProvider);
+                });
+
+            fakedPlugin.Execute(fakedServiceProvider); //Execute the plugin
+            return fakedPlugin;
         }
 
         /// <summary>
@@ -336,7 +357,7 @@ namespace FakeXrmEasy
             return this.ExecutePluginWithTarget<T>(ctx, target, messageName, stage);
         }
 
-        protected IServiceProvider GetFakedServiceProvider(XrmFakedPluginExecutionContext plugCtx)
+        public IServiceProvider GetFakedServiceProvider(XrmFakedPluginExecutionContext plugCtx)
         {
             var fakedServiceProvider = A.Fake<IServiceProvider>();
 
@@ -375,13 +396,19 @@ namespace FakeXrmEasy
                    {
                        return GetFakedServiceEndpointNotificationService();
                    }
+
+                   if (t == typeof(ILogger))
+                   {
+                       return plugCtx.LoggingService;
+                   }
+                   
 #if FAKE_XRM_EASY_9
                    if (t == typeof(IEntityDataSourceRetrieverService))
                    {
                        return GetFakedEntityDataSourceRetrieverService();
                    }
 #endif
-                   throw new PullRequestException("The specified service type is not supported");
+                   throw new PullRequestException($"The specified service type {t.FullName} is not supported");
                });
 
             return fakedServiceProvider;

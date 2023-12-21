@@ -277,11 +277,6 @@ namespace FakeXrmEasy
 
         public virtual IOrganizationService GetOrganizationService()
         {
-            if (this is XrmRealContext)
-            {
-                Service = GetOrganizationService();
-                return Service;
-            }
             return GetFakedOrganizationService(this);
         }
 

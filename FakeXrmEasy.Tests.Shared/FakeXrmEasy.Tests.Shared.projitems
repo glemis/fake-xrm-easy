@@ -149,6 +149,5 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\EntityInitializer\InvoiceInitializerServiceTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TestDefaultEntityInitializer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tracing\XrmFakeTracingExample.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)XrmRealContextTests\XrmRealContextTests.cs" />
   </ItemGroup>
 </Project>

@@ -1,4 +1,5 @@
-﻿using Microsoft.Xrm.Sdk;
+using Microsoft.Xrm.Sdk;
+using Microsoft.Xrm.Sdk.PluginTelemetry;
 using System;
 using System.Runtime.Serialization;
 
@@ -98,6 +99,9 @@ namespace FakeXrmEasy
 
         [DataMember(Order = 27)]
         public int Stage { get; set; }
+
+        [DataMember(Order = 28)]
+        public ILogger LoggingService { get; set; }
 
         /// <summary>
         /// Default constructor
