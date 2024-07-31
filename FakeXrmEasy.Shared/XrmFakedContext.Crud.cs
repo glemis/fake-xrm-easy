@@ -508,8 +508,6 @@ namespace FakeXrmEasy
                             AttributeMetadataNames[e.LogicalName].Add(p.Name, p.Name);
                     }
                 }
-                else
-                    throw new Exception(string.Format("Couldnt find reflected type for {0}", e.LogicalName));
 
             }
             else
