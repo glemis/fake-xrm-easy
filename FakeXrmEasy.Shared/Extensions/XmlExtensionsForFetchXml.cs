@@ -6,6 +6,7 @@ using System.Linq;
 using System.Xml.Linq;
 using Microsoft.Xrm.Sdk;
 using System.Globalization;
+using System.Text.RegularExpressions;
 
 namespace FakeXrmEasy.Extensions.FetchXml
 {
@@ -593,8 +594,13 @@ namespace FakeXrmEasy.Extensions.FetchXml
             //Process values
             object[] values = null;
 
-
             var entityName = GetAssociatedEntityNameForConditionExpression(elem);
+            if (!string.IsNullOrWhiteSpace(conditionEntityName))
+            {
+                // If there is an entity name then it means the value is being compaired to an aliased linked entities field not the containing entities field. 
+                var entityNameMatch = Regex.Match(elem.Document.ToString(), "link-entity.+name=\"(\\w+)\".+alias=\""+ conditionEntityName + "\"[\\s\\/]+>");
+                entityName = entityNameMatch.Groups[1].Value;
+            }
 
             //Find values inside the condition expression, if apply
             values = elem

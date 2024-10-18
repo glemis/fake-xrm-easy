@@ -9,7 +9,7 @@ namespace FakeXrmEasy.FakeMessageExecutors
     {
         public bool CanExecute(OrganizationRequest request)
         {
-            return request is CreateMultipleRequest;
+            return request is UpdateMultipleRequest;
         }
 
         public OrganizationResponse Execute(OrganizationRequest request, XrmFakedContext ctx)
