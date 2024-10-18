@@ -36,12 +36,15 @@ namespace FakeXrmEasy
 
         protected IPluginExecutionContext GetFakedPluginContext(XrmFakedPluginExecutionContext ctx)
         {
-            var context = A.Fake<IPluginExecutionContext>();
+            var context = A.Fake<IPluginExecutionContext4>();
 
             PopulateExecutionContextPropertiesFromFakedContext(context, ctx);
 
             A.CallTo(() => context.ParentContext).ReturnsLazily(() => ctx.ParentContext);
             A.CallTo(() => context.Stage).ReturnsLazily(() => ctx.Stage);
+
+            A.CallTo(() => context.PostEntityImagesCollection).ReturnsLazily(() => ctx.PostEntityImagesCollection);
+            A.CallTo(() => context.PreEntityImagesCollection).ReturnsLazily(() => ctx.PreEntityImagesCollection);
 
             return context;
         }
@@ -375,7 +378,7 @@ namespace FakeXrmEasy
                        return TracingService;
                    }
 
-                   if (t == typeof(IPluginExecutionContext))
+                   if (t == typeof(IPluginExecutionContext) || t == typeof(IPluginExecutionContext4))
                    {
                        return GetFakedPluginContext(plugCtx);
                    }

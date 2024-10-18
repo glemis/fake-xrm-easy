@@ -10,7 +10,7 @@ namespace FakeXrmEasy
     /// Extracted from https://msdn.microsoft.com/es-es/library/microsoft.xrm.sdk.ipluginexecutioncontext_properties.aspx
     /// </summary>
     [DataContract(Name = "PluginExecutionContext", Namespace = "")]
-    public class XrmFakedPluginExecutionContext : IPluginExecutionContext
+    public class XrmFakedPluginExecutionContext : IPluginExecutionContext4
     {
         [DataMember(Order = 1)]
         public Guid BusinessUnitId { get; set; }
@@ -102,6 +102,30 @@ namespace FakeXrmEasy
 
         [DataMember(Order = 28)]
         public ILogger LoggingService { get; set; }
+
+        [DataMember(Order = 29)]
+        public EntityImageCollection[] PostEntityImagesCollection { get; set; }
+
+        [DataMember(Order = 30)]
+        public EntityImageCollection[] PreEntityImagesCollection { get; set; }
+
+        [DataMember(Order = 31)]
+        public Guid AuthenticatedUserId { get; set; }
+
+        [DataMember(Order = 32)]
+        public Guid UserAzureActiveDirectoryObjectId { get; set; }
+
+        [DataMember(Order = 33)]
+        public Guid InitiatingUserAzureActiveDirectoryObjectId { get; set; }
+
+        [DataMember(Order = 34)]
+        public Guid InitiatingUserApplicationId { get; set; }
+
+        [DataMember(Order = 35)]
+        public Guid PortalsContactId { get; set; }
+
+        [DataMember(Order = 36)]
+        public bool IsPortalsClientCall { get; set; }
 
         /// <summary>
         /// Default constructor
